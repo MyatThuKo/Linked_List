@@ -12,6 +12,7 @@ private:
   int length;
 public:
   node* first;
+  bool nameFound;
   node();
   ~node();
   void insertItem(string item, int age);
@@ -26,6 +27,7 @@ public:
 node::node() {
   first = NULL;
   length = 0;
+  nameFound = false;
 }
 
 // default deconstructor
@@ -116,10 +118,13 @@ void node::deleteItem(string item) {
 
 // print function
 void node::printList() {
+  int count = 1;
   node* p = first;
   while (p != NULL) {
-    cout << "Name: " << p-> info << ", Age: " << p->age << endl;
+    cout << "Name " << count << ": " << p->info << endl;
+    cout << "Age " << count << ": " << p->age << endl;
     p = p->next;
+    count++;
   }
 }
 
@@ -127,7 +132,8 @@ void node::printList() {
 void node::reversePrint(node* p) {
   if (p != NULL) {
     reversePrint(p->next);
-    cout << "Name: " << p->info << ", Age: " << p->age << endl;
+    cout << "Name "<< ": " << p->info << endl;
+    cout << "Age " << ": " << p->age << endl;
   }
 }
 
@@ -143,6 +149,7 @@ bool node::checkName(string name) {
   while (!found && p != NULL) {
     if (name == p->info) {
       found = true;
+      nameFound = true;
     } else if (name > p->info) {
       p = p->next;
     } else {
@@ -158,6 +165,7 @@ int main() {
   string name;
   string choice;
   int age;
+  int count = 1;
 
   cout << "This program will add, and delete names and age...";
   cout << "\nAlso, will print the list in sorted order or reversed order..." << endl;
@@ -172,10 +180,15 @@ int main() {
     cout << "Select your menu choice: ";
     cin >> choice;
     if (choice == "A") {
-      cout << "Enter the name and age to add: ";
+      cout << "Enter name " << count << ": " << endl;
       cin >> name;
+      cout << "Enter age " << count << ": " << endl;
       cin >> age;
       obj.insertItem(name, age);
+      // checks if the name is duplicated or not to add the count...
+      if (obj.nameFound == false) {
+        count++;
+      }
     } else if (choice == "D") {
       cout << "Enter the name to delete: ";
       cin >> name;
